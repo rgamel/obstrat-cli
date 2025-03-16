@@ -26,8 +26,7 @@ func readAtRandom(file *os.File) (string, error) {
 func main() {
 	file, err := os.Open("./strats.txt")
 	if err != nil {
-		fmt.Printf("error: %v\n", err)
-		os.Exit(1)
+		log.Fatalf("error: %v\n", err)
 	}
 	defer file.Close()
 
