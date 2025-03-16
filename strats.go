@@ -1,29 +1,17 @@
-package main
+package obstrat
 
 import (
 	"bufio"
-	"log"
 	"math/rand"
 	"os"
 )
 
-func GetRandomStrat() (string, error) {
-	lines, err := getStratsFromFile()
-	if err != nil {
-		log.Fatalf("error getting strats from file: %v\n", err)
-	}
-
+func GetRandomStrat(lines []string) string {
 	randomIndex := rand.Intn(len(lines))
-	return lines[randomIndex], nil
+	return lines[randomIndex]
 }
 
-func getStratsFromFile() ([]string, error) {
-	file, err := os.Open("./strats.txt")
-	if err != nil {
-		return []string{}, err
-	}
-	defer file.Close()
-
+func GetStratsFromFile(file *os.File) ([]string, error) {
 	lines := []string{}
 	scanner := bufio.NewScanner(file)
 
@@ -35,4 +23,18 @@ func getStratsFromFile() ([]string, error) {
 	}
 
 	return lines, nil
+}
+
+func ShuffleStratPile(a []string) {
+	rand.Shuffle(len(a), func(i, j int) { a[i], a[j] = a[j], a[i] })
+}
+
+func DrawTopStrat(lines []string) string {
+	// simulates drawing top card,
+	// reading (returning) it,
+	// and placing it back on the bottom of the deck
+	head := lines[0]
+	lines = append(lines[1:], head)
+
+	return head
 }
